@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Graphics: Lab 1</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+          crossorigin="anonymous">
+    <script type="text/javascript" src="script.js" defer></script>
+</head>
+
+<body>
+<div class="container">
+    <div class="text-xl-center">
+        <h2> Комп'ютерна графіка: Лабораторна робота №1
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 form dashed">
+
+            <label for="x">Координата X верхнього лівого кута:</label>
+            <input type="number" value="0" min="0" max="17" class="form-control" id="x" />
+
+            <label for="y">Координата Y верхнього лівого кута:</label>
+            <input type="number" value="0" min="0" max="17" class="form-control" id="y" />
+
+            <label for="vertDiagonalLength">Координата X нижнього правого кута:</label>
+            <input type="number" value="1" min="1" class="form-control" id="vertDiagonalLength" />
+
+            <label for="horizDiagonalLength">Координата Y нижнього правого кута:</label>
+            <input type="number" value="1" min="1" class="form-control" id="horizDiagonalLength" />
+            <br>
+            <label for="rhombusColor">Колір квадрата:</label>
+            <input type="color" value="#6464e6" id="rhombusColor" />
+            <br>
+
+
+            <input type="hidden" value="#ff0a64" id="diagonalColor" />
+            <br>
+
+
+            <input type="hidden" value="#0a6432" id="circleColor" />
+            <br>
+
+            <label for="scale">Маштаб (мінімум - 40):</label>
+            <input type="number" value="100" min="40" class="form-control" id="scale" />
+
+            <input type="button" id="drawBtn" class="btn btn-success" value="Намалювати" />
+            <input type="button" id="clearBtn" class="btn btn-danger" value="Очистити" />
+
+
+        </div>
+        <div class="col-md-6 text-xl-center">
+            <canvas id="canvas" width="500px" height="500px">
+                Oops, something went wrong.
+            </canvas>
+        </div>
+        <div class="col-md-3">
+            <div class="dashed">
+                <h4 class="text-md-center"> Про автора </h4>
+                <p> Ім'я: Юрій Яворський </p>
+                <p> Група: ПІ-32 </p>
+                <p> Варіант: №13
+                <p> Тема: "Побудова Квадратів"
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
