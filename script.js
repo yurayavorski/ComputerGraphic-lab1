@@ -32,24 +32,24 @@ function drawAxes() {
     ctx.beginPath();
 
 // Draw Y axis.
-    ctx.moveTo(sq, sq);
-    ctx.lineTo(sq, h);
+    ctx.moveTo(sq + w/2, sq);
+    ctx.lineTo(sq + w/2, h);
 
 // Draw Y arrow.
-    ctx.moveTo(sq, sq);
-    ctx.lineTo(sq * 5 / 6, sq * 2);
-    ctx.moveTo(sq, sq);
-    ctx.lineTo(sq * 7 / 6, sq * 2);
+    ctx.moveTo(sq + w/2, sq);
+    ctx.lineTo(sq * 5 / 6 + w/2, sq * 2);
+    ctx.moveTo(sq + w/2, sq);
+    ctx.lineTo(sq * 7 / 6 + w/2, sq * 2);
 
 // Draw X axis.
-    ctx.moveTo(0, h - sq);
-    ctx.lineTo(w - sq, h - sq);
+    ctx.moveTo(0, h - sq - h/2);
+    ctx.lineTo(w - sq, h - sq - h/2);
 
 // Draw X arrow.
-    ctx.moveTo(w - sq, h - sq);
-    ctx.lineTo(w - 2 * sq, h - sq * 5 / 6);
-    ctx.moveTo(w - sq, h - sq);
-    ctx.lineTo(w - 2 * sq, h - sq * 7 / 6);
+    ctx.moveTo(w - sq, h - sq - h/2);
+    ctx.lineTo(w - 2 * sq, h - sq * 5 / 6 - h/2);
+    ctx.moveTo(w - sq, h - sq - h/2);
+    ctx.lineTo(w - 2 * sq, h - sq * 7 / 6 - h/2);
 
     ctx.closePath();
 
@@ -59,24 +59,24 @@ function drawAxes() {
 }
 
 function drawAxesTexts() {
-    let axisElements = 17;
-
+    let axisElements = w/sq - 3;
     ctx.fillStyle = "rgb(0, 0, 0)";
 
-// Draw the X axis texts.
-    for (let i = 1; i <= axisElements; i++) {
-        ctx.fillText(i, sq * (i + 1), h - sq / 3);
-    }
-
-// Draw the Y axis texts.
-    for (let i = 1; i <= axisElements; i++) {
-        ctx.fillText(i, sq / 3, h - sq * (i + 1));
+// Draw the X AND Y axis texts.
+    let pos = 1;
+    for (let i = Math.round(axisElements/(-2) - 1) ; i <= axisElements/2; i++) {
+        if ( axisElements > 40) {
+            i++;
+            pos++;
+        }
+        ctx.fillText(i, sq * (pos + 1), h - sq / 3 - h/2);
+        ctx.fillText(i, sq / 3 + w/2, h - sq * (pos++ + 1));
     }
 
 // Draw axes signs.
     ctx.fillText("0", sq / 3, h - sq / 3);
-    ctx.fillText("X", w - sq / 3, h - sq / 3);
-    ctx.fillText("Y", sq / 3, sq / 3);
+    ctx.fillText("X", w - sq / 3, h - sq / 3 - h/2);
+    ctx.fillText("Y", sq / 3 + w/2, sq / 3);
 }
 function makeSquare(rbX, rbY, ltX, ltY, color) {
     let width = rbX - ltX;
@@ -99,12 +99,12 @@ function makeSquare(rbX, rbY, ltX, ltY, color) {
 
     ctx.beginPath();
 
-    ctx.moveTo(sq + top.x * sq, h - (sq + top.y * sq));
-    ctx.lineTo(sq + left.x * sq, h - (sq + left.y * sq));
+    ctx.moveTo(sq + top.x * sq + w/2, h/2 - (sq + top.y * sq));
+    ctx.lineTo(sq + left.x * sq + w/2, h/2 - (sq + left.y * sq));
 
-    ctx.lineTo(sq + bot.x * sq, h - (sq + bot.y * sq));
-    ctx.lineTo(sq + right.x * sq, h - (sq + right.y * sq));
-    ctx.lineTo(sq + top.x * sq, h - (sq + top.y * sq));
+    ctx.lineTo(sq + bot.x * sq + w/2, h/2 - (sq + bot.y * sq));
+    ctx.lineTo(sq + right.x * sq + w/2, h/2 - (sq + right.y * sq));
+    ctx.lineTo(sq + top.x * sq + w/2, h/2 - (sq + top.y * sq));
     //ctx.closePath();
 
     ctx.lineWidth = 3;
@@ -137,14 +137,14 @@ function makeCroses(rbX, rbY, ltX, ltY, color) {
     alert(sq);*/
     for (let Y = (h - (sq + top.y * sq) - sq*0.5) ; Y > (h - (sq + right.y * sq)); Y -= sq*0.5) {
 
-        ctx.moveTo(sq + top.x * sq, Y);
-        ctx.lineTo(sq + left.x * sq, Y);
+        ctx.moveTo(sq + top.x * sq+ w/2, Y - h/2);
+        ctx.lineTo(sq + left.x * sq+ w/2, Y - h/2);
     }
 
     for (let X = ((sq + right.x * sq) + sq*0.5) ; X < (sq + left.x * sq); X += sq*0.5) {
 
-        ctx.moveTo(X, h - (sq + right.y * sq));
-        ctx.lineTo(X, h - (sq + top.y * sq));
+        ctx.moveTo(X+ w/2, h/2 - (sq + right.y * sq));
+        ctx.lineTo(X + w/2, h/2 - (sq + top.y * sq));
     }
 
 
@@ -160,7 +160,7 @@ function makeCircle(rbX, rbY, ltX, ltY, color) {
     let radius = (rbX - ltX) / 2;
 
     ctx.beginPath();
-    ctx.arc(sq + cx * sq, h - (sq + cy * sq), radius * sq, 0, Math.PI * 2);
+    ctx.arc(sq + cx * sq + w/2, h/2 - (sq + cy * sq), radius * sq, 0, Math.PI * 2);
     ctx.closePath();
 
     ctx.lineWidth = 3;
@@ -169,6 +169,13 @@ function makeCircle(rbX, rbY, ltX, ltY, color) {
 
     ctx.fillStyle = "transparent";
     ctx.fill();
+}
+function changeScale() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    sq = w / 20 / document.getElementById("scale").value * 100;
+    drawBoard();
+    drawAxes();
+    drawAxesTexts();
 }
 
 document.getElementById("drawBtn").onclick = function () {
@@ -186,6 +193,26 @@ document.getElementById("drawBtn").onclick = function () {
         return ;
     }
 
+    let axisElements = w/sq - 3;
+    if (Math.abs(rbX) > axisElements/2) {
+        document.getElementById("scale").value = Math.abs(Math.round( document.getElementById("scale").value*rbX/axisElements*2 * 1.1 ));
+        document.getElementById("scale").value = Math.round(document.getElementById("scale").value/10)*10;
+        changeScale();
+    }
+    else {
+        if (Math.abs(ltX) > axisElements/2) {
+            document.getElementById("scale").value = Math.abs(Math.round( document.getElementById("scale").value*ltX/axisElements*2 * 1.1 ));
+            document.getElementById("scale").value = Math.round(document.getElementById("scale").value/10)*10;
+            changeScale();
+        }
+        else
+            if ( axisElements/(rbX - ltX) > 5 ) {
+                document.getElementById("scale").value = Math.abs(Math.round( document.getElementById("scale").value/axisElements/(rbX - ltX) * 10 ));
+                document.getElementById("scale").value = Math.round(document.getElementById("scale").value/10)*10;
+                changeScale();
+            }
+    }
+
     makeSquare(rbX, rbY, ltX, ltY, rhombusColor);
     makeCroses(rbX, rbY, ltX, ltY, diagonalColor);
     makeCircle(rbX, rbY, ltX, ltY, circleColor);
@@ -193,7 +220,6 @@ document.getElementById("drawBtn").onclick = function () {
 
 document.getElementById("clearBtn").onclick = function () {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     drawBoard();
     drawAxes();
     drawAxesTexts();
@@ -204,9 +230,6 @@ drawAxes();
 drawAxesTexts();
 
 document.getElementById("scale").onchange = function () {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    sq = w / 20 / document.getElementById("scale").value * 100;
-    drawBoard();
-    drawAxes();
-    drawAxesTexts();
+    document.getElementById("scale").value = Math.round(document.getElementById("scale").value/10)*10;
+    changeScale();
 }
